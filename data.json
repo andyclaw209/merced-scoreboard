@@ -1,0 +1,65 @@
+{
+  "scoreboard": [
+    {
+      "name": "Jason Wallace",
+      "cars_sold_month": 0,
+      "goal_month": 15,
+      "streak": 0,
+      "status": "Active"
+    },
+    {
+      "name": "Alex Hernandez",
+      "cars_sold_month": 0,
+      "goal_month": 15,
+      "streak": 0,
+      "status": "Active"
+    },
+    {
+      "name": "Robert Brummel",
+      "cars_sold_month": 0,
+      "goal_month": 15,
+      "streak": 0,
+      "status": "Active"
+    },
+    {
+      "name": "Robert Villanueva",
+      "cars_sold_month": 0,
+      "goal_month": 15,
+      "streak": 0,
+      "status": "Active"
+    },
+    {
+      "name": "Sean Herr",
+      "cars_sold_month": 0,
+      "goal_month": 15,
+      "streak": 0,
+      "status": "Active"
+    },
+    {
+      "name": "Adam Rodriguez",
+      "cars_sold_month": 0,
+      "goal_month": 15,
+      "streak": 0,
+      "status": "Active"
+    },
+    {
+      "name": "Luis Enrique Cervantes",
+      "cars_sold_month": 0,
+      "goal_month": 15,
+      "streak": 0,
+      "status": "Active"
+    },
+    {
+      "name": "Nathan Ortiz",
+      "cars_sold_month": 0,
+      "goal_month": 15,
+      "streak": 0,
+      "status": "Active"
+    }
+  ],
+  "teamTotals": {
+    "total_cars": 0,
+    "total_goal": 120
+  },
+  "updatedAt": "2026-02-25T02:00:24.738449+00:00"
+}

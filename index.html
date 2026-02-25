@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merced Sales Scoreboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a0f;
+      color: #fff;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: linear-gradient(135deg, #0d1b2a 0%, #1a2a3a 100%);
+      border-bottom: 3px solid #f0a500;
+      padding: 28px 40px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dealer-name {
+      font-size: clamp(1.4rem, 3vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #f0a500;
+      text-transform: uppercase;
+    }
+    .dealer-name span { color: #fff; font-weight: 300; }
+    .month-label {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      font-weight: 600;
+      color: #aaa;
+      text-align: right;
+    }
+    .month-label strong {
+      display: block;
+      color: #fff;
+      font-size: clamp(1.2rem, 2.5vw, 1.9rem);
+    }
+    .goal-banner {
+      background: #f0a500;
+      color: #000;
+      text-align: center;
+      padding: 10px;
+      font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    main { flex: 1; padding: 32px 40px; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      color: #f0a500;
+      font-size: clamp(0.75rem, 1.2vw, 1rem);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0 16px 16px;
+      text-align: left;
+      border-bottom: 1px solid #222;
+    }
+    thead th.center { text-align: center; }
+    tbody tr { border-bottom: 1px solid #151520; }
+    tbody td { padding: 18px 16px; font-size: clamp(1rem, 2vw, 1.5rem); vertical-align: middle; }
+    tbody td.center { text-align: center; }
+    .rank { font-size: clamp(1.1rem, 2.2vw, 1.7rem); font-weight: 900; color: #555; width: 60px; }
+    .rank.top { color: #f0a500; }
+    .name { font-weight: 700; font-size: clamp(1.1rem, 2.2vw, 1.75rem); }
+    .sold { font-size: clamp(1.4rem, 3vw, 2.6rem); font-weight: 900; color: #f0a500; width: 100px; }
+    .sold.zero { color: #444; }
+    .progress-cell { width: 40%; min-width: 160px; }
+    .progress-wrap { display: flex; align-items: center; gap: 14px; }
+    .bar-bg { flex: 1; height: 20px; background: #1e1e2e; border-radius: 10px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #b87a00, #f0a500); min-width: 4px; }
+    .bar-fill.full { background: linear-gradient(90deg, #1a8a3a, #2ecc71); }
+    .pct { font-size: clamp(0.8rem, 1.4vw, 1.05rem); font-weight: 700; color: #888; width: 48px; text-align: right; }
+    .badge { font-size: clamp(1.2rem, 2vw, 1.6rem); margin-left: 8px; }
+    tr.needs-attention .name { color: #ccc; }
+    .team-total {
+      background: #0d1b2a;
+      border-top: 2px solid #f0a500;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .team-total .label { font-size: clamp(0.9rem, 1.5vw, 1.2rem); font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.1em; }
+    .team-total .value { font-size: clamp(1.4rem, 3vw, 2.4rem); font-weight: 900; color: #f0a500; }
+    .team-total .value span { color: #555; font-weight: 400; }
+    footer {
+      background: #050508;
+      border-top: 1px solid #1a1a2a;
+      padding: 12px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="dealer-name">Merced <span>Hyundai • KIA • VW</span></div>
+    <div class="month-label">
+      <strong id="month-year">—</strong>
+      Sales Race
+    </div>
+  </header>
+  <div class="goal-banner">🏁 Monthly Goal: 15 Cars Per Associate — Who's Closing?</div>
+  <main>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Associate</th>
+          <th class="center">Cars Sold</th>
+          <th>Progress to Goal</th>
+        </tr>
+      </thead>
+      <tbody id="board-body"><tr><td colspan="4" style="text-align:center;padding:60px;color:#444">Loading...</td></tr></tbody>
+    </table>
+  </main>
+  <div class="team-total">
+    <div>
+      <div class="label">Team Total</div>
+      <div class="value" id="team-cars">—</div>
+    </div>
+    <div style="text-align:right">
+      <div class="label">Goal</div>
+      <div class="value">15 <span style="font-size:1rem;color:#666">cars each</span></div>
+    </div>
+  </div>
+  <footer>
+    <span>Merced Hyundai • KIA • VW &nbsp;|&nbsp; 1555 W 16th St, Merced, CA</span>
+    <span id="last-updated">—</span>
+  </footer>
+  <script>
+    const GOAL = 15;
+    function monthName() { return new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'}); }
+    function fmt(n) { return Number(n||0); }
+    function render(data) {
+      const board = data.scoreboard || [];
+      const totals = data.teamTotals || {};
+      document.getElementById('month-year').textContent = monthName();
+      document.getElementById('team-cars').innerHTML = `${fmt(totals.total_cars)} <span>/ ${fmt(totals.total_goal)} cars</span>`;
+      document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+      document.getElementById('board-body').innerHTML = board.map((rep,i) => {
+        const sold = fmt(rep.cars_sold_month);
+        const goal = fmt(rep.goal_month) || GOAL;
+        const pct = Math.min(100, Math.round((sold/goal)*100));
+        return `<tr class="${pct<50?'needs-attention':''}">
+          <td class="rank ${i===0?'top':''}">${i+1}</td>
+          <td class="name">${rep.name}${i===0&&sold>0?'<span class="badge">🏆</span>':''}${fmt(rep.streak)>0?'<span class="badge">🔥</span>':''}</td>
+          <td class="${sold>0?'sold':'sold zero'} center">${sold}</td>
+          <td class="progress-cell"><div class="progress-wrap"><div class="bar-bg"><div class="${pct>=100?'bar-fill full':'bar-fill'}" style="width:${pct}%"></div></div><div class="pct">${pct}%</div></div></td>
+        </tr>`;
+      }).join('');
+    }
+    async function refresh() {
+      try { render(await (await fetch('/data.json?t='+Date.now())).json()); }
+      catch(e) { console.error(e); }
+    }
+    refresh();
+    setInterval(refresh, 60000);
+  </script>
+</body>
+</html>
